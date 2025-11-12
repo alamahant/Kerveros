@@ -4,9 +4,9 @@
 
 Kerveros is a robust, cross-platform two-factor authentication (2FA) code generator that combines enterprise-grade security with user-friendly features. Generate time-based one-time passwords (TOTP) for all your online accounts while keeping your secrets encrypted and protected.
 
-#![Qt](https://img.shields.io/badge/Qt-6.0%2B-green.svg)
-#![Platform](https://img.shields.io/badge/Platform-Linux%20%7C%20Windows%20%7C%20macOS-blue.svg)
-#![License](https://img.shields.io/badge/License-Proprietary-orange.svg)
+![Qt](https://img.shields.io/badge/Qt-6.0%2B-green.svg)
+![Platform](https://img.shields.io/badge/Platform-Linux%20%7C%20Windows%20%7C%20macOS-blue.svg)
+![License](https://img.shields.io/badge/License-GPLv3-blue.svg)
 
 ## ✨ Features
 
