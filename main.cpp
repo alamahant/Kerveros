@@ -1,11 +1,12 @@
 #include "twofamanager.h"
 #include<QObject>
 #include <QApplication>
-//#include<QLocalServer>
-//#include<QLocalSocket>
+#include<QLocalServer>
+#include<QLocalSocket>
 #include<QMessageBox>
 #include<QLockFile>
 #include<QStandardPaths>
+#include<QProcess>
 
 /*
 int main(int argc, char *argv[])
@@ -16,37 +17,38 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
 
+    // Absolute socket path for single-instance check
+    QString socketPath = QStandardPaths::writableLocation(QStandardPaths::RuntimeLocation)
+                         + "/Kerveros.sock";
 
-    // Create a unique server name for this app
-    QString serverName = "Kerveros_2FA_App";
+    // Try to connect to an existing instance
     QLocalSocket socket;
+    socket.connectToServer(socketPath);
 
-    socket.connectToServer(serverName);
-
-    // Try to connect to existing instance
     if (socket.waitForConnected(500)) {
-        // Another instance is running - bring it to front and exit
+        // Another instance is running
         QMessageBox::information(nullptr, "Already Running",
-                                "Kerveros is already running.\nCheck your system tray or taskbar.");
+                                 "Kerveros is already running.\nCheck your system tray or taskbar.");
         socket.disconnectFromServer();
         return 0;
+    } else {
+        // Clean up any stale socket
+        QLocalServer::removeServer(socketPath);
     }
 
-    // No other instance - create server and run app
+    // Create server for this instance
     QLocalServer server;
-    if (!server.listen(serverName)) {
-        // Couldn't create server - maybe permissions issue, but continue anyway
+    if (!server.listen(socketPath)) {
         qWarning() << "Could not create single instance server:" << server.errorString();
+        // Optional: continue anyway
     }
-
 
     TwoFAManager manager;
-
     manager.show();
+
     return a.exec();
 }
 */
-
 /*
 int main(int argc, char *argv[])
 {
@@ -93,8 +95,10 @@ int main(int argc, char *argv[])
 }
 */
 
+
 int main(int argc, char *argv[])
 {
+
     QApplication::setApplicationName("Kerveros");
     QApplication::setOrganizationName("Alamahant");
     QApplication::setApplicationVersion("1.0.0");
@@ -115,8 +119,7 @@ int main(int argc, char *argv[])
 
     TwoFAManager manager;
     manager.show();
+    return a.exec();
 
-    int result = a.exec();
-
-    return result;
 }
+
