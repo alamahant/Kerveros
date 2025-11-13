@@ -23,6 +23,8 @@ struct TwoFAEntry {
     QString name;
     QString secret;
     QString issuer;
+    QString group;
+    QString comments;
 };
 
 class TwoFAManager : public QWidget
@@ -98,6 +100,8 @@ private slots:
         void onShowFromTray();
         void onExitFromTray();
         void importQRCode();
+        void onSearchTextChanged(const QString& searchText);
+
 private:
 };
 

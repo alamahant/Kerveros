@@ -3,5 +3,8 @@
         <file>favicon_io/android-chrome-512x512.png</file>
         <file>favicon_io/favicon-32x32.png</file>
         <file>favicon_io/favicon-16x16.png</file>
+        <file>favicon_io/android-chrome-192x192.png</file>
+        <file>favicon_io/apple-touch-icon.png</file>
+        <file>favicon_io/favicon.ico</file>
     </qresource>
 </RCC>

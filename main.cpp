@@ -1,9 +1,12 @@
 #include "twofamanager.h"
 #include<QObject>
 #include <QApplication>
-#include<QLocalServer>
-#include<QLocalSocket>
+//#include<QLocalServer>
+//#include<QLocalSocket>
 #include<QMessageBox>
+#include<QLockFile>
+#include<QStandardPaths>
+
 /*
 int main(int argc, char *argv[])
 {
@@ -44,7 +47,7 @@ int main(int argc, char *argv[])
 }
 */
 
-
+/*
 int main(int argc, char *argv[])
 {
     QApplication::setApplicationName("Kerveros");
@@ -82,6 +85,35 @@ int main(int argc, char *argv[])
 
     TwoFAManager manager;
 
+    manager.show();
+
+    int result = a.exec();
+
+    return result;
+}
+*/
+
+int main(int argc, char *argv[])
+{
+    QApplication::setApplicationName("Kerveros");
+    QApplication::setOrganizationName("Alamahant");
+    QApplication::setApplicationVersion("1.0.0");
+
+    QApplication a(argc, argv);
+
+    // Use QLockFile for single instance check
+    //QString tempDir = QDir::tempPath();
+    QString tempDir = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
+    qDebug()<<"temp dir " << tempDir;
+    QLockFile lockFile(tempDir + "/Kerveros_2FA_App.lock");
+
+    if (!lockFile.tryLock(100)) {
+        QMessageBox::information(nullptr, "Already Running",
+                                "Kerveros is already running.\nCheck your system tray or taskbar.");
+        return 0;
+    }
+
+    TwoFAManager manager;
     manager.show();
 
     int result = a.exec();

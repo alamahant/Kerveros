@@ -201,11 +201,25 @@ void TwoFAManager::onAddAccount()
     QLineEdit* issuerEdit = new QLineEdit;
     issuerEdit->setPlaceholderText("Company name (optional)");
 
+
+    QLineEdit* groupEdit = new QLineEdit;
+    groupEdit->setPlaceholderText("Group name (optional)");
+    groupEdit->setToolTip("You can create groups like 'Work', 'Personal' etc");
+
+    QLineEdit* commentsEdit = new QLineEdit;
+    commentsEdit->setPlaceholderText("Comments (optional)");
+    commentsEdit->setToolTip("Any comments you wish to include");
+
     layout->addRow("Account Name:", nameEdit);
     layout->addRow("Secret Key:", secretEdit);
     layout->addRow("Issuer:", issuerEdit);
+    layout->addRow("Group", groupEdit);
+    layout->addRow("Comments", commentsEdit);
+
     QLabel *notiflabel = new QLabel(this);
-    notiflabel->setText("NOTE: Drag and Drop QR Code screenshots to easily add accounts!");
+    QString notifText = QString("NOTE: Drag and Drop QR Code screenshots to easily add accounts!\n"
+                                "NOTE:Screenshots should be placed in '%1'").arg(appDirPath);
+    notiflabel->setText(notifText);
     layout->addRow(notiflabel);
     QDialogButtonBox* buttons = new QDialogButtonBox(
         QDialogButtonBox::Ok | QDialogButtonBox::Cancel, &dialog);
@@ -218,6 +232,8 @@ void TwoFAManager::onAddAccount()
         QString name = nameEdit->text().trimmed();
         QString secret = secretEdit->text().trimmed().toUpper().remove(' ');
         QString issuer = issuerEdit->text().trimmed();
+        QString group = groupEdit->text().trimmed();
+        QString comments = commentsEdit->text().trimmed();
 
         if (name.isEmpty()) {
             QMessageBox::warning(this, "Invalid Input", "Please enter an account name.");
@@ -240,6 +256,8 @@ void TwoFAManager::onAddAccount()
         entry.name = name;
         entry.secret = secret;
         entry.issuer = issuer;
+        entry.group = group;
+        entry.comments = comments;
 
         m_entries[name] = entry;
         m_accountList->addItem(name);
@@ -302,6 +320,35 @@ void TwoFAManager::onCopyCode()
 void TwoFAManager::onSelectionChanged()
 {
     bool hasSelection = m_accountList->currentItem() != nullptr;
+
+    if (hasSelection) {
+            QString accountName = m_accountList->currentItem()->text();
+            if (m_entries.contains(accountName)) {
+                const TwoFAEntry& entry = m_entries[accountName];
+
+                // Standard 12 asterisks for all secrets
+                /*
+                QString tooltip = QString("Account: %1\nSecret: ************\nIssuer: %2")
+                    .arg(entry.name)
+                    .arg(entry.issuer.isEmpty() ? "Not specified" : entry.issuer);
+                */
+
+                QString tooltip = QString("Account: %1\n"
+                                         "Secret: ************\n"
+                                         "Issuer: %2\n"
+                                         "Group: %3\n"
+                                         "Comments: %4")
+                                  .arg(entry.name)
+                                  .arg(entry.issuer.isEmpty() ? "Not specified" : entry.issuer)
+                                  .arg(entry.group.isEmpty() ? "Not specified" : entry.group)
+                                  .arg(entry.comments.isEmpty() ? "None" : entry.comments);
+
+                m_accountList->currentItem()->setToolTip(tooltip);
+            }
+        } else {
+            m_accountList->setToolTip("");
+        }
+
     m_deleteBtn->setEnabled(hasSelection);
     m_copyBtn->setEnabled(hasSelection);
     editButton->setEnabled(hasSelection);
@@ -379,6 +426,8 @@ void TwoFAManager::loadData()
 
 
         entry.issuer = settings.value("issuer").toString();
+        entry.group = settings.value("group").toString();
+        entry.comments = settings.value("comments").toString();
 
         if (!entry.secret.isEmpty() && Simple2FA::isValidSecret(entry.secret)) {
             m_entries[account] = entry;
@@ -413,6 +462,9 @@ void TwoFAManager::saveData()
         //
         settings.setValue("secret", secretToSave);
         settings.setValue("issuer", entry.issuer);
+        settings.setValue("group", entry.group);
+        settings.setValue("comments", entry.comments);
+
         settings.endGroup();
     }
 
@@ -508,7 +560,20 @@ void TwoFAManager::setupMenus()
             dialog.exec();
         });
 
-        //
+        // ADD SEARCH FIELD FIRST
+            QLineEdit* searchBox = new QLineEdit(this);
+            searchBox->setToolTip("Search options:\n"
+                                 "• [text] - Search account names\n"
+                                 "• #g [text] - Search groups\n"
+                                 "• #i [text] - Search issuers\n"
+                                 "• #c [text] - Search comments\n"
+                                 "All searches are case-insensitive");
+            searchBox->setPlaceholderText("Search accounts...");
+            searchBox->setClearButtonEnabled(true);
+            searchBox->setMaximumWidth(200);
+            menuBar->setCornerWidget(searchBox, Qt::TopRightCorner);
+
+            connect(searchBox, &QLineEdit::textChanged, this, &TwoFAManager::onSearchTextChanged);
 
     // Add menu bar to your layout
            layout()->setMenuBar(menuBar);
@@ -550,9 +615,18 @@ void TwoFAManager::onEditAccount()
     QLineEdit* issuerEdit = new QLineEdit;
     issuerEdit->setText(oldEntry.issuer);
 
+    //
+    QLineEdit* groupEdit = new QLineEdit;
+    groupEdit->setText(oldEntry.group);
+
+    QLineEdit* commentsEdit = new QLineEdit;
+    commentsEdit->setText(oldEntry.comments);
+    //
     layout->addRow("Account Name:", nameEdit);
     layout->addRow("Secret Key:", secretEdit);
     layout->addRow("Issuer:", issuerEdit);
+    layout->addRow("Group", groupEdit);
+    layout->addRow("Comments", commentsEdit);
 
     QDialogButtonBox* buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, &dialog);
     layout->addWidget(buttons);
@@ -564,6 +638,8 @@ void TwoFAManager::onEditAccount()
         QString newName = nameEdit->text().trimmed();
         QString secret = secretEdit->text().trimmed().toUpper().remove(' ');
         QString issuer = issuerEdit->text().trimmed();
+        QString group = groupEdit->text().trimmed();
+        QString comments = commentsEdit->text().trimmed();
 
         // Validate
         if (newName.isEmpty()) {
@@ -598,6 +674,9 @@ void TwoFAManager::onEditAccount()
         newEntry.name = newName;
         newEntry.secret = secret;
         newEntry.issuer = issuer;
+        newEntry.group = group;
+        newEntry.comments = comments;
+
         m_entries[newName] = newEntry;
 
         // Update list
@@ -607,6 +686,16 @@ void TwoFAManager::onEditAccount()
 
         saveData();
         updateCurrentCode();
+        //update tooltip immediately
+        auto items = m_accountList->findItems(newEntry.name, Qt::MatchExactly);
+        if (!items.isEmpty()) {
+            items[0]->setToolTip(QString("Account: %1\nSecret: ************\nIssuer: %2\nGroup: %3\nComments: %4")
+                                .arg(newEntry.name)
+                                .arg(newEntry.issuer.isEmpty() ? "Not specified" : newEntry.issuer)
+                                .arg(newEntry.group.isEmpty() ? "Not specified" : newEntry.group)
+                                .arg(newEntry.comments.isEmpty() ? "None" : newEntry.comments));
+        }
+        //
     }
 }
 
@@ -709,9 +798,22 @@ void TwoFAManager::showPrefilledAddDialog(const QString& secret, const QString& 
     issuerEdit->setText(issuer);
     issuerEdit->setPlaceholderText("Company name (optional)");
 
+    //
+    QLineEdit* groupEdit = new QLineEdit;
+    groupEdit->setPlaceholderText("Group name (optional)");
+    groupEdit->setToolTip("Organize your accounts in groups like 'Work', 'Personal', etc");
+
+    QLineEdit* commentsEdit = new QLineEdit;
+    commentsEdit->setPlaceholderText("Comments (optional)");
+    commentsEdit->setToolTip("Add any comments you wish to include");
+
+    //
+
     layout->addRow("Account Name:", nameEdit);
     layout->addRow("Secret Key:", secretEdit);
     layout->addRow("Issuer:", issuerEdit);
+    layout->addRow("Group:", groupEdit);
+    layout->addRow("Comments:", commentsEdit);
 
     QDialogButtonBox* buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, &dialog);
     layout->addWidget(buttons);
@@ -724,6 +826,8 @@ void TwoFAManager::showPrefilledAddDialog(const QString& secret, const QString& 
         QString name = nameEdit->text().trimmed();
         QString finalSecret = secretEdit->text().trimmed().toUpper().remove(' ');
         QString finalIssuer = issuerEdit->text().trimmed();
+        QString groupName = groupEdit->text().trimmed();
+        QString comments = commentsEdit->text().trimmed();
 
         // ... validation and saving logic from onAddAccount
         if (name.isEmpty()) {
@@ -747,6 +851,8 @@ void TwoFAManager::showPrefilledAddDialog(const QString& secret, const QString& 
         entry.name = name;
         entry.secret = secret;
         entry.issuer = issuer;
+        entry.group = groupName;
+        entry.comments = comments;
 
         m_entries[name] = entry;
         m_accountList->addItem(name);
@@ -943,5 +1049,86 @@ void TwoFAManager::importQRCode()
 
     if (!imagePath.isEmpty()) {
         processDroppedImage(imagePath);  // ← REUSE YOUR EXISTING DRAG/DROP LOGIC!
+    }
+}
+/*
+void TwoFAManager::onSearchTextChanged(const QString& searchText)
+{
+    // Clear current selection
+    m_accountList->clearSelection();
+
+    if (searchText.isEmpty()) {
+        // Show all items when search is empty
+        for (int i = 0; i < m_accountList->count(); ++i) {
+            m_accountList->item(i)->setHidden(false);
+        }
+        return;
+    }
+
+    // Filter items based on search
+    for (int i = 0; i < m_accountList->count(); ++i) {
+        QListWidgetItem* item = m_accountList->item(i);
+        QString accountName = item->text();
+
+        // Check if account name contains search text (case-insensitive)
+        bool matches = accountName.contains(searchText, Qt::CaseInsensitive);
+        item->setHidden(!matches);
+    }
+}
+*/
+
+void TwoFAManager::onSearchTextChanged(const QString& searchText)
+{
+    m_accountList->clearSelection();
+
+    if (searchText.isEmpty()) {
+        // Show all items
+        for (int i = 0; i < m_accountList->count(); ++i) {
+            m_accountList->item(i)->setHidden(false);
+        }
+        return;
+    }
+
+    // Check for special search prefixes
+    bool isGroupSearch = searchText.startsWith("#g ");
+    bool isIssuerSearch = searchText.startsWith("#i ");
+    bool isCommentsSearch = searchText.startsWith("#c ");
+
+    QString searchTerm;
+    if (isGroupSearch || isIssuerSearch || isCommentsSearch) {
+        searchTerm = searchText.mid(3).trimmed();
+    } else {
+        searchTerm = searchText;
+    }
+
+    for (int i = 0; i < m_accountList->count(); ++i) {
+        QListWidgetItem* item = m_accountList->item(i);
+        QString itemText = item->text();
+        bool matches = false;
+
+        if (isGroupSearch) {
+            // Search in group field
+            if (m_entries.contains(itemText)) {
+                QString group = m_entries[itemText].group;
+                matches = group.contains(searchTerm, Qt::CaseInsensitive);
+            }
+        } else if (isIssuerSearch) {
+            // Search in issuer field
+            if (m_entries.contains(itemText)) {
+                QString issuer = m_entries[itemText].issuer;
+                matches = issuer.contains(searchTerm, Qt::CaseInsensitive);
+            }
+        } else if (isCommentsSearch) {
+            // Search in comments field
+            if (m_entries.contains(itemText)) {
+                QString comments = m_entries[itemText].comments;
+                matches = comments.contains(searchTerm, Qt::CaseInsensitive);
+            }
+        } else {
+            // Search in account name (default)
+            matches = itemText.contains(searchTerm, Qt::CaseInsensitive);
+        }
+
+        item->setHidden(!matches);
     }
 }
