@@ -518,10 +518,8 @@ void TwoFAManager::onMasterPasswordVerified(const QString& masterPassword)
 {
     // Store the master password for this session (empty if no password required)
     m_currentMasterPassword = masterPassword;
-    qDebug() << "current master password is :" << m_currentMasterPassword;
     // Now load data with decryption capability
    // loadData();
-    qDebug() << m_currentMasterPassword;
     saveData();
     // Update UI
     updateCurrentCode();
@@ -875,7 +873,6 @@ void TwoFAManager::exportAccounts()
 
     // Create default export path: Documents/Kerveros_backup.conf
     QString exportPath = appDirPath + "/" + QApplication::applicationName() + ".conf.bak";
-    qDebug() << "backup name : " << exportPath;
 
     // Save current data first to ensure everything is written
     saveData();
