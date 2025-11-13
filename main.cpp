@@ -6,8 +6,8 @@
 #include<QMessageBox>
 #include<QLockFile>
 #include<QStandardPaths>
-#include<QProcess>
-
+//#include<QProcess>
+#include<QObject>
 /*
 int main(int argc, char *argv[])
 {
@@ -108,7 +108,6 @@ int main(int argc, char *argv[])
     // Use QLockFile for single instance check
     //QString tempDir = QDir::tempPath();
     QString tempDir = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
-
     QLockFile lockFile(tempDir + "/Kerveros_2FA_App.lock");
 
     if (!lockFile.tryLock(100)) {
@@ -119,6 +118,9 @@ int main(int argc, char *argv[])
 
     TwoFAManager manager;
     manager.show();
+    QObject::connect(&a, &QApplication::aboutToQuit, [&lockFile]() {
+        lockFile.unlock();
+        });
     return a.exec();
 
 }
