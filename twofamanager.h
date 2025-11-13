@@ -98,7 +98,7 @@ private slots:
         void onShowFromTray();
         void onExitFromTray();
         void importQRCode();
-
+private:
 };
 
 

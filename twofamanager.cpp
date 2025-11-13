@@ -27,7 +27,6 @@
 
 TwoFAManager::TwoFAManager(QWidget *parent)
     :QWidget(parent, Qt::Window)
-
     , m_accountList(nullptr)
     , m_currentCodeLabel(nullptr)
     , m_timeRemainingLabel(nullptr)
@@ -36,8 +35,9 @@ TwoFAManager::TwoFAManager(QWidget *parent)
     , m_updateTimer(nullptr)
     , m_timeProgressBar(nullptr)
     , m_securityManager(new SecurityManager(this))
-    , m_minimizeToTray(false)
+    , m_minimizeToTray(settings.value("settings/minimizeToTray", false).toBool())
 {
+
     QDir().mkpath(appDirPath);
     setAcceptDrops(true);  // ENABLE DRAG & DROP
     connect(m_securityManager, &SecurityManager::masterPasswordVerified,
@@ -64,7 +64,6 @@ TwoFAManager::TwoFAManager(QWidget *parent)
 
     updateCurrentCode();
     setupSystemTray();
-    m_minimizeToTray = settings.value("settings/minimizeToTray", false).toBool();
 }
 
 TwoFAManager::~TwoFAManager()
@@ -826,9 +825,11 @@ void TwoFAManager::closeEvent(QCloseEvent* event)
         if (m_updateTimer) m_updateTimer->stop();
         saveData();
         event->accept();
-        QApplication::quit();
+        qApp->quit();
     }
 }
+
+
 
 void TwoFAManager::factoryReset() {
 
