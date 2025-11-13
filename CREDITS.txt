@@ -1,0 +1,11 @@
+CREDITS
+
+Framework:
+- Qt Framework (https://www.qt.io/)
+  Licensed under LGPL v3
+  Copyright (C) The Qt Company Ltd.
+
+Icons:
+
+- favicon.io (https://favicon.io/)
+  Icons generated via favicon.io tools and assets.

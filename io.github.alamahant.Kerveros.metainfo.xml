@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <component type="desktop-application">
-
 <id>io.github.alamahant.Kerveros</id>
-
 <name>Kerveros</name>
-
 <summary>Secure 2FA Code Generator with Master Password Protection</summary>
-
 <metadata_license>CC0-1.0</metadata_license>
-
 <project_license>GPL-3.0-or-later</project_license>
-
 <description>
 <p>
 Kerveros is a robust, cross-platform two-factor authentication (2FA) code generator that combines enterprise-grade security with user-friendly features. Generate time-based one-time passwords (TOTP) for all your online accounts while keeping your secrets encrypted and protected.
@@ -24,7 +17,7 @@ Key Features:
 <li>Encrypted Secret Storage: XOR encryption with initialization vectors</li>
 <li>TOTP Code Generation: RFC-compliant time-based one-time passwords</li>
 <li>Real-time Code Updates: Automatic refresh every 30 seconds with visual countdown timer</li>
-<li>QR Code Import: Drag & drop or file menu import of QR code images</li>
+<li>QR Code Import: Drag and drop or file menu import of QR code images</li>
 <li>One-Click Copy: Instant clipboard copy with visual feedback</li>
 <li>Password Attempt Limiting: 5 attempts before factory reset option</li>
 <li>System Tray Integration: Minimize to tray with quick restore</li>
@@ -35,28 +28,21 @@ Key Features:
 Kerveros is designed for security-conscious users who need a reliable, secure, and easy-to-use 2FA code generator with master password protection for all their online accounts including GitHub, Google, PayPal, Discord, and more.
 </p>
 </description>
-
 <screenshots>
 <screenshot type="default">
     <caption>Main view</caption>
     <image>https://raw.githubusercontent.com/alamahant/Kerveros/master/screenshots/Main_View.png</image>
   </screenshot>
 </screenshots>
-
 <launchable type="desktop-id">io.github.alamahant.Kerveros.desktop</launchable>
-
 <url type="homepage">https://github.com/alamahant/Kerveros</url>
-
 <url type="bugtracker">https://github.com/alamahant/Kerveros/issues</url>
-
 <developer_name>Alamahant</developer_name>
-
 <categories>
 <category>Utility</category>
 <category>Security</category>
 <category>Office</category>
 </categories>
-
 <keywords>
 <keyword>2FA</keyword>
 <keyword>Security</keyword>
@@ -69,21 +55,18 @@ Kerveros is designed for security-conscious users who need a reliable, secure, a
 <keyword>Qt</keyword>
 <keyword>Cross-platform</keyword>
 </keywords>
-
 <content_rating type="oars-1.1">
-<content_attribute id="social-info">none</content_attribute>
+<content_attribute id="social-info">mild</content_attribute>
 </content_rating>
-
 <releases>
-
-<release version="1.0.0" date="2025-11-15">
+<release version="1.0.0" date="2025-11-13">
 <description>
 <p>Initial release of Kerveros on Flathub.</p>
 <ul>
 <li>Master password protection with SHA-256 hashing and salting</li>
 <li>Encrypted secret storage using XOR encryption</li>
 <li>TOTP code generation with real-time updates</li>
-<li>QR code import via drag & drop or file menu</li>
+<li>QR code import via drag and drop or file menu</li>
 <li>One-click copy to clipboard with visual feedback</li>
 <li>Password attempt limiting and factory reset protection</li>
 <li>System tray integration and single instance enforcement</li>
@@ -92,20 +75,15 @@ Kerveros is designed for security-conscious users who need a reliable, secure, a
 </ul>
 </description>
 </release>
-
 </releases>
-
 <provides>
 <binary>Kerveros</binary>
 </provides>
-
 <requires>
 <display_length compare="ge">768</display_length>
 </requires>
-
 <recommends>
 <control>keyboard</control>
 <control>pointing</control>
 </recommends>
-
 </component>

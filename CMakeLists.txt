@@ -160,7 +160,7 @@ install(TARGETS Kerveros
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
-if(FLATHUB_BUILD)
+#if(FLATHUB_BUILD)
   install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/io.github.alamahant.Kerveros.desktop"
           DESTINATION "share/applications")
 
@@ -184,7 +184,8 @@ if(FLATHUB_BUILD)
   install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/favicon_io/favicon-32x32.png"
           DESTINATION "share/icons/hicolor/32x32/apps"
           RENAME "io.github.alamahant.Kerveros.png")
-endif()
+#endif()
+
 
 
 if(QT_VERSION_MAJOR EQUAL 6)

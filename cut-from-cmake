@@ -1,0 +1,25 @@
+if(FLATHUB_BUILD)
+  install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/io.github.alamahant.Kerveros.desktop"
+          DESTINATION "share/applications")
+
+  install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/io.github.alamahant.Kerveros.metainfo.xml"
+          DESTINATION "share/metainfo")
+
+  # Install icons for different sizes
+  install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/favicon_io/android-chrome-192x192.png"
+          DESTINATION "share/icons/hicolor/192x192/apps"
+          RENAME "io.github.alamahant.Kerveros.png")
+
+  install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/favicon_io/android-chrome-512x512.png"
+          DESTINATION "share/icons/hicolor/512x512/apps"
+          RENAME "io.github.alamahant.Kerveros.png")
+
+  # Optionally, install 16x16 and 32x32 icons if desired
+  install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/favicon_io/favicon-16x16.png"
+          DESTINATION "share/icons/hicolor/16x16/apps"
+          RENAME "io.github.alamahant.Kerveros.png")
+
+  install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/favicon_io/favicon-32x32.png"
+          DESTINATION "share/icons/hicolor/32x32/apps"
+          RENAME "io.github.alamahant.Kerveros.png")
+endif()

@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
     // Use QLockFile for single instance check
     //QString tempDir = QDir::tempPath();
     QString tempDir = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
-    qDebug()<<"temp dir " << tempDir;
+
     QLockFile lockFile(tempDir + "/Kerveros_2FA_App.lock");
 
     if (!lockFile.tryLock(100)) {
