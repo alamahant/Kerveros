@@ -38,7 +38,7 @@ void SecurityManager::onTogglePasswordProtection(bool enabled)
         QMessageBox msgBox(QMessageBox::Information,
                            "Password Protection",
                            "🔒 Enabling Password Protection\n\n"
-                           "Jasmine will now require a master password on startup.\n"
+                           "Kerveros will now require a master password on startup.\n"
                            "This helps protect your saved websites and data.",
                            QMessageBox::Ok | QMessageBox::Cancel,
                            m_parent);
@@ -183,7 +183,7 @@ void SecurityManager::setMasterPassword(bool isEdit)
 
     QMessageBox::information(m_parent, "Password Set Successfully",
                              "Master password has been set successfully.\n"
-                             "Jasmine will now require this password on startup.");
+                             "Kerveros will now require this password on startup.");
     //return password; //  RETURN THE PLAIN PASSWORD
     emit masterPasswordVerified(password);
 
@@ -195,7 +195,7 @@ QString SecurityManager::hashPassword(const QString& password)
 {
     QCryptographicHash hash(QCryptographicHash::Sha256);
     hash.addData(password.toUtf8());
-    hash.addData("JasmineSalt2024"); // Add salt for security
+    hash.addData("KerverosSalt2024"); // Add salt for security
     return hash.result().toHex();
 }
 
