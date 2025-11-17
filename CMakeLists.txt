@@ -106,6 +106,11 @@ set(PROJECT_SOURCES
         twofamanager.h
         simple2fa.cpp
         simple2fa.h
+        securitymanager.h
+        securitymanager.cpp
+        resources.qrc
+        helpmenudialog.cpp helpmenudialog.h
+        donationdialog.cpp donationdialog.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
