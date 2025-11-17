@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Kerveros
+GenericName=2FA Code Generator
+Comment=Secure 2FA code generator with master password protection
+Icon=io.github.alamahant.Kerveros
+Exec=Kerveros
+Terminal=false
+Categories=Utility;Security;Office;
+Keywords=2fa;security;otp;totp;authentication;password;encryption;qr code;qt;cross-platform;
+StartupNotify=true
