@@ -1,5 +1,7 @@
 # 🔐 Kerveros
 
+![Kerveros Screenshot](screenshots/Main_View.png)
+
 **Secure 2FA Code Generator with Master Password Protection**
 
 Kerveros is a robust, cross-platform two-factor authentication (2FA) code generator that combines enterprise-grade security with user-friendly features. Generate time-based one-time passwords (TOTP) for all your online accounts while keeping your secrets encrypted and protected.
