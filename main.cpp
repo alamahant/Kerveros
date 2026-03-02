@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
 
     QApplication::setApplicationName("Kerveros");
     QApplication::setOrganizationName("Alamahant");
-    QApplication::setApplicationVersion("1.0.0");
+    QApplication::setApplicationVersion("1.0.1");
 
     QApplication a(argc, argv);
 
@@ -121,6 +121,8 @@ int main(int argc, char *argv[])
     QObject::connect(&a, &QApplication::aboutToQuit, [&lockFile]() {
         lockFile.unlock();
         });
+
+
     return a.exec();
 
 }

@@ -103,6 +103,11 @@ private slots:
         void onSearchTextChanged(const QString& searchText);
 
 private:
+    void useExistingDb();
+    void moveDb();
+    void showConfigLocation();
+    QString encryptMeta(const QString &text, const QString &password);
+    QString decryptMeta(const QString &cipher, const QString &password);
 };
 
 

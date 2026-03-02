@@ -36,12 +36,13 @@ TwoFAManager::TwoFAManager(QWidget *parent)
     , m_timeProgressBar(nullptr)
     , m_securityManager(new SecurityManager(this))
     , m_minimizeToTray(settings.value("settings/minimizeToTray", false).toBool())
-{
 
+{
+    // qDebug()<<settings.fileName();
     QDir().mkpath(appDirPath);
     setAcceptDrops(true);  // ENABLE DRAG & DROP
     connect(m_securityManager, &SecurityManager::masterPasswordVerified,
-                this, &TwoFAManager::onMasterPasswordVerified);
+            this, &TwoFAManager::onMasterPasswordVerified);
 
     connect(m_securityManager, &SecurityManager::factoryResetRequested, this, &TwoFAManager::factoryReset);
     setAttribute(Qt::WA_DeleteOnClose);
@@ -127,16 +128,16 @@ void TwoFAManager::setupUI()
     QFrame* codeFrame = new QFrame;
     codeFrame->setFrameStyle(QFrame::StyledPanel);
     codeFrame->setStyleSheet(
-        "QFrame { background-color: #f8f9fa; border-radius: 8px; padding: 10px; }"
-        );
+                "QFrame { background-color: #f8f9fa; border-radius: 8px; padding: 10px; }"
+                );
     QVBoxLayout* codeFrameLayout = new QVBoxLayout(codeFrame);
 
     m_currentCodeLabel = new QLabel("------");
     m_currentCodeLabel->setAlignment(Qt::AlignCenter);
     m_currentCodeLabel->setStyleSheet(
-        "font-size: 32px; font-weight: bold; color: #2196F3; "
-        "font-family: 'Courier New', monospace; letter-spacing: 4px;"
-        );
+                "font-size: 32px; font-weight: bold; color: #2196F3; "
+                "font-family: 'Courier New', monospace; letter-spacing: 4px;"
+                );
     codeFrameLayout->addWidget(m_currentCodeLabel);
 
     // Time remaining
@@ -151,10 +152,10 @@ void TwoFAManager::setupUI()
     m_timeProgressBar->setValue(30);
     m_timeProgressBar->setTextVisible(false);
     m_timeProgressBar->setStyleSheet(
-        "QProgressBar { border: 1px solid #ddd; border-radius: 4px; background: #f0f0f0; }"
-        "QProgressBar::chunk { background: qlineargradient(x1:0, y1:0, x2:1, y2:0, "
-        "stop:0 #4CAF50, stop:0.7 #FFC107, stop:1 #F44336); border-radius: 3px; }"
-        );
+                "QProgressBar { border: 1px solid #ddd; border-radius: 4px; background: #f0f0f0; }"
+                "QProgressBar::chunk { background: qlineargradient(x1:0, y1:0, x2:1, y2:0, "
+                "stop:0 #4CAF50, stop:0.7 #FFC107, stop:1 #F44336); border-radius: 3px; }"
+                );
     codeFrameLayout->addWidget(m_timeProgressBar);
 
     codeLayout->addWidget(codeFrame);
@@ -163,9 +164,9 @@ void TwoFAManager::setupUI()
     m_copyBtn = new QPushButton("Copy Code to Clipboard");
     m_copyBtn->setEnabled(false);
     m_copyBtn->setStyleSheet(
-        "QPushButton { font-weight: bold; padding: 8px; }"
-        "QPushButton:enabled { background-color: #4CAF50; color: white; }"
-        );
+                "QPushButton { font-weight: bold; padding: 8px; }"
+                "QPushButton:enabled { background-color: #4CAF50; color: white; }"
+                );
     codeLayout->addWidget(m_copyBtn);
 
     splitter->addWidget(codeGroup);
@@ -222,7 +223,7 @@ void TwoFAManager::onAddAccount()
     notiflabel->setText(notifText);
     layout->addRow(notiflabel);
     QDialogButtonBox* buttons = new QDialogButtonBox(
-        QDialogButtonBox::Ok | QDialogButtonBox::Cancel, &dialog);
+                QDialogButtonBox::Ok | QDialogButtonBox::Cancel, &dialog);
     layout->addWidget(buttons);
 
     connect(buttons, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
@@ -272,7 +273,7 @@ void TwoFAManager::onAddAccount()
 void TwoFAManager::onDeleteAccount()
 {
     QString currentItem = m_accountList->currentItem() ?
-                              m_accountList->currentItem()->text() : "";
+                m_accountList->currentItem()->text() : "";
 
     if (currentItem.isEmpty()) {
         return;
@@ -290,11 +291,11 @@ void TwoFAManager::onDeleteAccount()
         //saveData();
         // Remove from QSettings
 
-              settings.beginGroup("TwoFA");
-              settings.beginGroup(currentItem);
-              settings.remove(""); // Remove this account's settings
-              settings.endGroup();
-              settings.endGroup();
+        settings.beginGroup("TwoFA");
+        settings.beginGroup(currentItem);
+        settings.remove(""); // Remove this account's settings
+        settings.endGroup();
+        settings.endGroup();
         updateCurrentCode();
     }
 }
@@ -322,32 +323,32 @@ void TwoFAManager::onSelectionChanged()
     bool hasSelection = m_accountList->currentItem() != nullptr;
 
     if (hasSelection) {
-            QString accountName = m_accountList->currentItem()->text();
-            if (m_entries.contains(accountName)) {
-                const TwoFAEntry& entry = m_entries[accountName];
+        QString accountName = m_accountList->currentItem()->text();
+        if (m_entries.contains(accountName)) {
+            const TwoFAEntry& entry = m_entries[accountName];
 
-                // Standard 12 asterisks for all secrets
-                /*
+            // Standard 12 asterisks for all secrets
+            /*
                 QString tooltip = QString("Account: %1\nSecret: ************\nIssuer: %2")
                     .arg(entry.name)
                     .arg(entry.issuer.isEmpty() ? "Not specified" : entry.issuer);
                 */
 
-                QString tooltip = QString("Account: %1\n"
-                                         "Secret: ************\n"
-                                         "Issuer: %2\n"
-                                         "Group: %3\n"
-                                         "Comments: %4")
-                                  .arg(entry.name)
-                                  .arg(entry.issuer.isEmpty() ? "Not specified" : entry.issuer)
-                                  .arg(entry.group.isEmpty() ? "Not specified" : entry.group)
-                                  .arg(entry.comments.isEmpty() ? "None" : entry.comments);
+            QString tooltip = QString("Account: %1\n"
+                                      "Secret: ************\n"
+                                      "Issuer: %2\n"
+                                      "Group: %3\n"
+                                      "Comments: %4")
+                    .arg(entry.name)
+                    .arg(entry.issuer.isEmpty() ? "Not specified" : entry.issuer)
+                    .arg(entry.group.isEmpty() ? "Not specified" : entry.group)
+                    .arg(entry.comments.isEmpty() ? "None" : entry.comments);
 
-                m_accountList->currentItem()->setToolTip(tooltip);
-            }
-        } else {
-            m_accountList->setToolTip("");
+            m_accountList->currentItem()->setToolTip(tooltip);
         }
+    } else {
+        m_accountList->setToolTip("");
+    }
 
     m_deleteBtn->setEnabled(hasSelection);
     m_copyBtn->setEnabled(hasSelection);
@@ -358,12 +359,12 @@ void TwoFAManager::onSelectionChanged()
 void TwoFAManager::updateCurrentCode()
 {
     QString currentItem = m_accountList->currentItem() ?
-                              m_accountList->currentItem()->text() : "";
+                m_accountList->currentItem()->text() : "";
 
     if (currentItem.isEmpty() || !m_entries.contains(currentItem)) {
         m_currentCodeLabel->setText("------");
         m_timeRemainingLabel->setText("Select an account");
-       // m_timeProgressBar->setValue(30);
+        // m_timeProgressBar->setValue(30);
         m_timeProgressBar->setValue(Simple2FA::getTimeRemaining());
 
         return;
@@ -396,9 +397,9 @@ void TwoFAManager::updateProgressBar()
     }
 
     m_timeProgressBar->setStyleSheet(
-        QString("QProgressBar { border: 1px solid #ddd; border-radius: 4px; background: #f0f0f0; }"
-                "QProgressBar::chunk { background: %1; border-radius: 3px; }").arg(color)
-        );
+                QString("QProgressBar { border: 1px solid #ddd; border-radius: 4px; background: #f0f0f0; }"
+                        "QProgressBar::chunk { background: %1; border-radius: 3px; }").arg(color)
+                );
 }
 
 void TwoFAManager::loadData()
@@ -417,17 +418,21 @@ void TwoFAManager::loadData()
 
         QString storedSecret = settings.value("secret").toString();
 
-               // DECRYPT only if we have a master password
-               if (!m_currentMasterPassword.isEmpty()) {
-                   entry.secret = Simple2FA::decryptSecret(storedSecret, m_currentMasterPassword);
-               } else {
-                   entry.secret = storedSecret; // Use plain text if no password protection
-               }
+        // DECRYPT only if we have a master password
+        if (!m_currentMasterPassword.isEmpty()) {
+            entry.secret = Simple2FA::decryptSecret(storedSecret, m_currentMasterPassword);
+        } else {
+            entry.secret = storedSecret; // Use plain text if no password protection
+        }
 
 
-        entry.issuer = settings.value("issuer").toString();
-        entry.group = settings.value("group").toString();
-        entry.comments = settings.value("comments").toString();
+        //entry.issuer = settings.value("issuer").toString();
+        //entry.group = settings.value("group").toString();
+        //entry.comments = settings.value("comments").toString();
+
+        entry.issuer   = decryptMeta(settings.value("issuer").toString(), m_currentMasterPassword);
+        entry.group    = decryptMeta(settings.value("group").toString(), m_currentMasterPassword);
+        entry.comments = decryptMeta(settings.value("comments").toString(), m_currentMasterPassword);
 
         if (!entry.secret.isEmpty() && Simple2FA::isValidSecret(entry.secret)) {
             m_entries[account] = entry;
@@ -438,6 +443,18 @@ void TwoFAManager::loadData()
     }
 
     settings.endGroup();
+
+    // Sort account names alphabetically (case-insensitive)
+    QStringList accountNames = m_entries.keys();
+    std::sort(accountNames.begin(), accountNames.end(), [](const QString &a, const QString &b) {
+        return a.toLower() < b.toLower();
+    });
+
+    // Clear list widget and repopulate
+    m_accountList->clear();
+    for (const QString &name : accountNames) {
+        m_accountList->addItem(name);
+    }
 }
 
 
@@ -454,16 +471,21 @@ void TwoFAManager::saveData()
         settings.beginGroup(name);
         //encryption-decryption
         QString secretToSave;
-               if (!m_currentMasterPassword.isEmpty()) {
-                   secretToSave = Simple2FA::encryptSecret(entry.secret, m_currentMasterPassword);
-               } else {
-                   secretToSave = entry.secret; // Save plain text if no password protection
-               }
+        if (!m_currentMasterPassword.isEmpty()) {
+            secretToSave = Simple2FA::encryptSecret(entry.secret, m_currentMasterPassword);
+        } else {
+            secretToSave = entry.secret; // Save plain text if no password protection
+        }
         //
-        settings.setValue("secret", secretToSave);
-        settings.setValue("issuer", entry.issuer);
-        settings.setValue("group", entry.group);
-        settings.setValue("comments", entry.comments);
+        //settings.setValue("secret", secretToSave);
+        //settings.setValue("issuer", entry.issuer);
+        //settings.setValue("group", entry.group);
+        //settings.setValue("comments", entry.comments);
+
+        settings.setValue("secret", encryptMeta(entry.secret, m_currentMasterPassword));
+        settings.setValue("issuer", encryptMeta(entry.issuer, m_currentMasterPassword));
+        settings.setValue("group", encryptMeta(entry.group, m_currentMasterPassword));
+        settings.setValue("comments", encryptMeta(entry.comments, m_currentMasterPassword));
 
         settings.endGroup();
     }
@@ -477,8 +499,8 @@ void TwoFAManager::setupMenus()
 
 
     QMenu* fileMenu = menuBar->addMenu("File");
-    QAction* exportAction = fileMenu->addAction("Export Accounts");
-    QAction* importAction = fileMenu->addAction("Import Accounts");
+    QAction* exportAction = fileMenu->addAction("Create Backup");
+    QAction* importAction = fileMenu->addAction("Restore Backup");
 
     connect(exportAction, &QAction::triggered, this, &TwoFAManager::exportAccounts);
     connect(importAction, &QAction::triggered, this, &TwoFAManager::importAccounts);
@@ -489,6 +511,19 @@ void TwoFAManager::setupMenus()
     QAction* factoryResetAction = fileMenu->addAction("Factory Reset");
     connect(factoryResetAction, &QAction::triggered, this, &TwoFAManager::factoryReset);
     fileMenu->addSeparator();
+
+    // NEW ACTIONS FOR CLOUD SYMLINKS
+    QAction* moveDbAction = fileMenu->addAction("Move DB to Cloud");
+    connect(moveDbAction, &QAction::triggered, this, &TwoFAManager::moveDb);
+
+    QAction* useExistingDbAction = fileMenu->addAction("Use Existing Cloud DB");
+    connect(useExistingDbAction, &QAction::triggered, this, &TwoFAManager::useExistingDb);
+
+    QAction* showConfigAction = fileMenu->addAction("Show Config Location");
+    connect(showConfigAction, &QAction::triggered,
+            this, &TwoFAManager::showConfigLocation);
+
+    fileMenu->addSeparator();
     QAction* quitAction = fileMenu->addAction("Quit");
     connect(quitAction, &QAction::triggered, [this] {
         QApplication::quit();
@@ -498,85 +533,85 @@ void TwoFAManager::setupMenus()
 
     m_securityManager->setupSecurityMenu(menuBar);
     menuBar->addSeparator();
-    QMenu* settingsMenu = menuBar->addMenu("Settings");  // ← NEW SETTINGS MENU
+    QMenu* settingsMenu = menuBar->addMenu("Settings");  // NEW SETTINGS MENU
 
 
 
-        // Settings menu items
-        m_minimizeToTrayAction = new QAction("Minimize to Tray", this);
-        m_minimizeToTrayAction->setCheckable(true);
+    // Settings menu items
+    m_minimizeToTrayAction = new QAction("Minimize to Tray", this);
+    m_minimizeToTrayAction->setCheckable(true);
 
-        m_minimizeToTrayAction->setChecked(settings.value("settings/minimizeToTray", false).toBool());
-        connect(m_minimizeToTrayAction, &QAction::toggled, this, &TwoFAManager::onToggleMinimizeToTray);
+    m_minimizeToTrayAction->setChecked(settings.value("settings/minimizeToTray", false).toBool());
+    connect(m_minimizeToTrayAction, &QAction::toggled, this, &TwoFAManager::onToggleMinimizeToTray);
 
-        settingsMenu->addAction(m_minimizeToTrayAction);
+    settingsMenu->addAction(m_minimizeToTrayAction);
 
-        //helpmenu
-        QMenu* helpMenu = menuBar->addMenu(tr("Help"));
+    //helpmenu
+    QMenu* helpMenu = menuBar->addMenu(tr("Help"));
 
-        QAction* aboutAction = new QAction(tr("About"), this);
-        helpMenu->addAction(aboutAction);
+    QAction* aboutAction = new QAction(tr("About"), this);
+    helpMenu->addAction(aboutAction);
 
-        // 2. Connect the About action to show the HelpMenuDialog
-        connect(aboutAction, &QAction::triggered, this, [this]() {
-            HelpMenuDialog dialog(HelpType::About, this);
-            dialog.exec();
-        });
+    // 2. Connect the About action to show the HelpMenuDialog
+    connect(aboutAction, &QAction::triggered, this, [this]() {
+        HelpMenuDialog dialog(HelpType::About, this);
+        dialog.exec();
+    });
 
-        QAction* featuresAction = new QAction(tr("Features"), this);
-        helpMenu->addAction(featuresAction);
+    QAction* featuresAction = new QAction(tr("Features"), this);
+    helpMenu->addAction(featuresAction);
 
-        // 2. Connect the About action to show the HelpMenuDialog
-        connect(featuresAction, &QAction::triggered, this, [this]() {
-            HelpMenuDialog dialog(HelpType::Features, this);
-            dialog.exec();
-        });
+    // 2. Connect the About action to show the HelpMenuDialog
+    connect(featuresAction, &QAction::triggered, this, [this]() {
+        HelpMenuDialog dialog(HelpType::Features, this);
+        dialog.exec();
+    });
 
-        QAction* instructionsAction = new QAction(tr("Instructions"), this);
-        helpMenu->addAction(instructionsAction);
+    QAction* instructionsAction = new QAction(tr("Instructions"), this);
+    helpMenu->addAction(instructionsAction);
 
-        // 2. Connect the About action to show the HelpMenuDialog
-        connect(instructionsAction, &QAction::triggered, this, [this]() {
-            HelpMenuDialog dialog(HelpType::Instructions, this);
-            dialog.exec();
-        });
+    // 2. Connect the About action to show the HelpMenuDialog
+    connect(instructionsAction, &QAction::triggered, this, [this]() {
+        HelpMenuDialog dialog(HelpType::Instructions, this);
+        dialog.exec();
+    });
 
 
-        QAction* whatsnewAction = new QAction(tr("Whats New"), this);
-        helpMenu->addAction(whatsnewAction);
+    QAction* whatsnewAction = new QAction(tr("Whats New"), this);
+    helpMenu->addAction(whatsnewAction);
 
-        // 2. Connect the About action to show the HelpMenuDialog
-        connect(whatsnewAction, &QAction::triggered, this, [this]() {
-            HelpMenuDialog dialog(HelpType::WhatsNew, this);
-            dialog.exec();
-        });
+    // 2. Connect the About action to show the HelpMenuDialog
+    connect(whatsnewAction, &QAction::triggered, this, [this]() {
+        HelpMenuDialog dialog(HelpType::WhatsNew, this);
+        dialog.exec();
+    });
 
-        QAction* supportusAction = new QAction(tr("Support Us"), this);
-        helpMenu->addAction(supportusAction);
+    QAction* supportusAction = new QAction(tr("Support Us"), this);
+    helpMenu->addAction(supportusAction);
 
-        // 2. Connect the supportus  action to show the HelpMenuDialog
-        connect(supportusAction, &QAction::triggered, this, [this]() {
-            DonationDialog dialog(this);
-            dialog.exec();
-        });
+    // 2. Connect the supportus  action to show the HelpMenuDialog
+    connect(supportusAction, &QAction::triggered, this, [this]() {
+        DonationDialog dialog(this);
+        dialog.exec();
+    });
 
-        // ADD SEARCH FIELD FIRST
-            QLineEdit* searchBox = new QLineEdit(this);
-            searchBox->setToolTip("Search options:\n"
-                                 "• [text] - Search account names\n"
-                                 "• #g [text] - Search groups\n"
-                                 "• #i [text] - Search issuers\n"
-                                 "• #c [text] - Search comments\n"
-                                 "All searches are case-insensitive");
-            searchBox->setPlaceholderText("Search accounts...");
-            searchBox->setClearButtonEnabled(true);
-            searchBox->setMaximumWidth(200);
-            menuBar->setCornerWidget(searchBox, Qt::TopRightCorner);
+    // ADD SEARCH FIELD FIRST
+    QLineEdit* searchBox = new QLineEdit(this);
+    searchBox->setToolTip("Search options:\n"
+                          "• [text] - Search account names\n"
+                          "• #g [text] - Search groups\n"
+                          "• #i [text] - Search issuers\n"
+                          "• #c [text] - Search comments\n"
+                          "All searches are case-insensitive");
+    searchBox->setPlaceholderText("Search accounts...");
+    searchBox->setClearButtonEnabled(true);
+    searchBox->setMaximumWidth(200);
+    menuBar->setCornerWidget(searchBox, Qt::TopRightCorner);
 
-            connect(searchBox, &QLineEdit::textChanged, this, &TwoFAManager::onSearchTextChanged);
+    connect(searchBox, &QLineEdit::textChanged, this, &TwoFAManager::onSearchTextChanged);
 
     // Add menu bar to your layout
-           layout()->setMenuBar(menuBar);
+    layout()->setMenuBar(menuBar);
 }
 
 void TwoFAManager::onMasterPasswordVerified(const QString& masterPassword)
@@ -584,7 +619,7 @@ void TwoFAManager::onMasterPasswordVerified(const QString& masterPassword)
     // Store the master password for this session (empty if no password required)
     m_currentMasterPassword = masterPassword;
     // Now load data with decryption capability
-   // loadData();
+    // loadData();
     saveData();
     // Update UI
     updateCurrentCode();
@@ -690,10 +725,10 @@ void TwoFAManager::onEditAccount()
         auto items = m_accountList->findItems(newEntry.name, Qt::MatchExactly);
         if (!items.isEmpty()) {
             items[0]->setToolTip(QString("Account: %1\nSecret: ************\nIssuer: %2\nGroup: %3\nComments: %4")
-                                .arg(newEntry.name)
-                                .arg(newEntry.issuer.isEmpty() ? "Not specified" : newEntry.issuer)
-                                .arg(newEntry.group.isEmpty() ? "Not specified" : newEntry.group)
-                                .arg(newEntry.comments.isEmpty() ? "None" : newEntry.comments));
+                                 .arg(newEntry.name)
+                                 .arg(newEntry.issuer.isEmpty() ? "Not specified" : newEntry.issuer)
+                                 .arg(newEntry.group.isEmpty() ? "Not specified" : newEntry.group)
+                                 .arg(newEntry.comments.isEmpty() ? "None" : newEntry.comments));
         }
         //
     }
@@ -707,8 +742,8 @@ void TwoFAManager::dragEnterEvent(QDragEnterEvent* event)
         if (!urls.isEmpty()) {
             QString filePath = urls.first().toLocalFile();
             if (filePath.endsWith(".png", Qt::CaseInsensitive) ||
-                filePath.endsWith(".jpg", Qt::CaseInsensitive) ||
-                filePath.endsWith(".jpeg", Qt::CaseInsensitive)) {
+                    filePath.endsWith(".jpg", Qt::CaseInsensitive) ||
+                    filePath.endsWith(".jpeg", Qt::CaseInsensitive)) {
                 event->acceptProposedAction();
             }
         }
@@ -919,8 +954,8 @@ void TwoFAManager::onExitFromTray()
 void TwoFAManager::closeEvent(QCloseEvent* event)
 {
     if (m_minimizeToTray &&  //USE THE MEMBER VARIABLE, NOT SETTING
-        QSystemTrayIcon::isSystemTrayAvailable() &&
-        m_trayIcon && m_trayIcon->isVisible()) {
+            QSystemTrayIcon::isSystemTrayAvailable() &&
+            m_trayIcon && m_trayIcon->isVisible()) {
 
         hide();  // Minimize to tray instead of closing
         event->ignore();  // Don't actually close
@@ -942,13 +977,14 @@ void TwoFAManager::factoryReset() {
     QString configFilePath = settings.fileName(); // This gives the full path with .conf
 
     QMessageBox::StandardButton reply = QMessageBox::question(this,
-        "Factory Reset",
-        "This will delete ALL your 2FA accounts and settings.\nThis action cannot be undone!\n\nAre you sure?",
-        QMessageBox::Yes | QMessageBox::No,
-        QMessageBox::No);
+                                                              "Factory Reset",
+                                                              "This will delete ALL your 2FA accounts and settings.\nThis action cannot be undone!\n\nAre you sure?",
+                                                              QMessageBox::Yes | QMessageBox::No,
+                                                              QMessageBox::No);
 
     if (reply == QMessageBox::Yes) {
         QFile configFile(configFilePath);
+        if (!configFile.exists()) return;
         if (configFile.remove()) {
             // Clear in-memory data
             m_entries.clear();
@@ -959,14 +995,15 @@ void TwoFAManager::factoryReset() {
             updateCurrentCode();
 
             QMessageBox::information(this, "Factory Reset Complete",
-                QString("All settings and accounts have been reset.\nFile deleted: %1").arg(configFilePath));
+                                     QString("All settings and accounts have been reset.\nFile deleted: %1\n"
+                                             "Please restart the application").arg(configFilePath));
 
             // Close the app
             //close();
-            QApplication::quit();
+            //QApplication::quit();
         } else {
             QMessageBox::warning(this, "Reset Failed",
-                QString("Could not delete settings file: %1\nPath: %2").arg(configFile.errorString()).arg(configFilePath));
+                                 QString("Could not delete settings file: %1\nPath: %2").arg(configFile.errorString()).arg(configFilePath));
         }
     }
 }
@@ -987,35 +1024,45 @@ void TwoFAManager::exportAccounts()
     // Copy the file
     if (QFile::copy(sourcePath, exportPath)) {
         QMessageBox::information(this, "Export Successful",
-            QString("All accounts and settings exported successfully!\n\nFile: %1").arg(exportPath));
+                                 QString("All accounts and settings exported successfully!\n\nFile: %1").arg(exportPath));
     } else {
         QMessageBox::warning(this, "Export Failed",
-            "Could not export accounts. The file may be in use or you lack permissions.");
+                             "Could not export accounts. The file may be in use or you lack permissions.");
     }
 }
+
+
 
 void TwoFAManager::importAccounts()
 {
     QString importPath = QFileDialog::getOpenFileName(this,
-        "Import Accounts",
-        appDirPath,
-        "Backup Files (*.conf *.bak);;Config Files (*.conf);;All Files (*)");
+                                                      "Import Accounts",
+                                                      appDirPath,
+                                                      "Backup Files (*.conf *.bak);;Config Files (*.conf);;All Files (*)");
     if (importPath.isEmpty()) {
         return;
     }
 
     QMessageBox::StandardButton reply = QMessageBox::question(this,
-        "Import Accounts",
-        "This will replace ALL your current accounts and settings.\nContinue?",
-        QMessageBox::Yes | QMessageBox::No,
-        QMessageBox::No);
+                                                              "Import Accounts",
+                                                              "This will replace ALL your current accounts and settings.\nContinue?",
+                                                              QMessageBox::Yes | QMessageBox::No,
+                                                              QMessageBox::No);
 
     if (reply != QMessageBox::Yes) {
         return;
     }
 
+    //factoryReset();
+
     QString currentPath = settings.fileName();
     QString backupPath = currentPath + ".bak";
+
+    if (QFile::exists(currentPath)) {
+        settings.clear();   // remove all keys
+        settings.sync();    // write empty file immediately
+    }
+
 
     // Create backup
     QFile::copy(currentPath, backupPath);
@@ -1023,6 +1070,7 @@ void TwoFAManager::importAccounts()
     // Replace current file with imported file
     QFile::remove(currentPath);
     if (QFile::copy(importPath, currentPath)) {
+
         // Reload data
         m_entries.clear();
         m_accountList->clear();
@@ -1032,7 +1080,8 @@ void TwoFAManager::importAccounts()
         // Remove backup
         QFile::remove(backupPath);
 
-        QMessageBox::information(this, "Import Successful", "All accounts imported successfully!");
+        QMessageBox::information(this, "Import Successful", "All accounts imported successfully!\n"
+                                                            "Please restart the application.");
     } else {
         // Restore backup
         QFile::copy(backupPath, currentPath);
@@ -1040,42 +1089,19 @@ void TwoFAManager::importAccounts()
     }
 }
 
+
+
 void TwoFAManager::importQRCode()
 {
     QString imagePath = QFileDialog::getOpenFileName(this,
-        "Import QR Code",
-        appDirPath,
-        "Image Files (*.png *.jpg *.jpeg);;All Files (*)");
+                                                     "Import QR Code",
+                                                     appDirPath,
+                                                     "Image Files (*.png *.jpg *.jpeg);;All Files (*)");
 
     if (!imagePath.isEmpty()) {
         processDroppedImage(imagePath);  // ← REUSE YOUR EXISTING DRAG/DROP LOGIC!
     }
 }
-/*
-void TwoFAManager::onSearchTextChanged(const QString& searchText)
-{
-    // Clear current selection
-    m_accountList->clearSelection();
-
-    if (searchText.isEmpty()) {
-        // Show all items when search is empty
-        for (int i = 0; i < m_accountList->count(); ++i) {
-            m_accountList->item(i)->setHidden(false);
-        }
-        return;
-    }
-
-    // Filter items based on search
-    for (int i = 0; i < m_accountList->count(); ++i) {
-        QListWidgetItem* item = m_accountList->item(i);
-        QString accountName = item->text();
-
-        // Check if account name contains search text (case-insensitive)
-        bool matches = accountName.contains(searchText, Qt::CaseInsensitive);
-        item->setHidden(!matches);
-    }
-}
-*/
 
 void TwoFAManager::onSearchTextChanged(const QString& searchText)
 {
@@ -1131,4 +1157,197 @@ void TwoFAManager::onSearchTextChanged(const QString& searchText)
 
         item->setHidden(!matches);
     }
+}
+
+//cloud
+void TwoFAManager::moveDb()
+{
+    if(!m_securityManager->m_requirePasswordAction->isChecked()) {
+
+
+    QMessageBox::StandardButton reply = QMessageBox::warning(
+        this,
+        "Security Warning",
+        "If you are moving the secrets database to a cloud-synced folder, "
+        "it is CRITICAL to enable encryption.\n\n"
+        "Please enable:\n"
+        "Menu Bar → Security → Require password at startup\n\n"
+        "Do you want to continue?",
+        QMessageBox::Yes | QMessageBox::Cancel,
+        QMessageBox::Cancel
+    );
+
+    if (reply != QMessageBox::Yes)
+        return;
+    }
+
+    QString currentPath = settings.fileName();
+    QFileInfo info(currentPath);
+
+    // Already symlink?
+    if (info.isSymLink()) {
+        QMessageBox::information(
+            this,
+            "Move DB",
+            "The database is already stored in a cloud location.\n\n"
+            "Current target:\n" + info.symLinkTarget() +
+            "\n\n"
+            "If you want to move it to another directory:\n"
+            "1. Create a backup (File → Create Backup)\n"
+            "2. Perform a Factory Reset\n"
+            "3. Run 'Move DB to Cloud' again."
+        );
+        return;
+    }
+
+    if (!QFile::exists(currentPath)) {
+        QMessageBox::warning(this, "Move DB",
+                             "No settings file exists to move.");
+        return;
+    }
+
+    // Select cloud directory
+    QString cloudDir = QFileDialog::getExistingDirectory(
+        this,
+        "Select Cloud Folder",
+        QDir::homePath(),
+        QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks
+    );
+
+    if (cloudDir.isEmpty())
+        return;
+
+    QDir().mkpath(cloudDir);
+
+    QString cloudPath =
+        cloudDir + "/" + QFileInfo(currentPath).fileName();
+
+    // Backup cloud file if exists
+    if (QFile::exists(cloudPath)) {
+        QString backupPath = cloudPath + ".bak";
+        QFile::remove(backupPath);
+        QFile::copy(cloudPath, backupPath);
+        QFile::remove(cloudPath);
+    }
+
+    // ---- MOVE REAL FILE TO CLOUD ----
+    if (!QFile::rename(currentPath, cloudPath)) {
+        QMessageBox::warning(this, "Move DB",
+                             "Failed to move database to cloud folder.");
+        return;
+    }
+
+    // ---- CREATE SYMLINK AT ORIGINAL LOCATION ----
+    if (!QFile::link(cloudPath, currentPath)) {
+        QMessageBox::warning(
+            this,
+            "Move DB",
+            "Database moved but failed to create symlink.\n"
+            "You may need to restore manually."
+        );
+        return;
+    }
+
+    QMessageBox::information(
+        this,
+        "Move DB",
+        "Database successfully moved to cloud folder.\n\n"
+        "Original location is now a symbolic link."
+    );
+}
+
+void TwoFAManager::useExistingDb()
+{
+
+
+    QString cloudFile = QFileDialog::getOpenFileName(this,
+                                                     "Select Cloud Settings File",
+                                                     QDir::homePath(),
+                                                     "Config Files (*.conf *.bak);;All Files (*)");
+
+    if (cloudFile.isEmpty()) return;
+
+    QString currentPath = settings.fileName(); // normal location
+
+    QFileInfo info(currentPath);
+
+    if (info.isSymLink()) {
+        QMessageBox::StandardButton reply =
+            QMessageBox::question(
+                this,
+                "Replace Cloud Database",
+                "The application is already using a cloud database.\n\n"
+                "Current target:\n" + info.symLinkTarget() +
+                "\n\nReplace it with another?",
+                QMessageBox::Yes | QMessageBox::Cancel,
+                QMessageBox::Cancel);
+
+        if (reply != QMessageBox::Yes)
+            return;
+
+        QFile::remove(currentPath); // remove old symlink
+    }
+
+    // Backup existing local file if it exists
+    if (QFile::exists(currentPath)) {
+        QString backupPath = currentPath + ".bak";
+        QFile::remove(backupPath); // remove old backup if any
+        QFile::copy(currentPath, backupPath);
+        QFile::remove(currentPath);
+    }
+
+    // Ensure parent directory exists
+    QDir().mkpath(QFileInfo(currentPath).absolutePath());
+
+    if (QFile::link(cloudFile, currentPath)) {
+        QMessageBox::information(this, "Use Existing DB", "Local settings now points to cloud file.");
+        // Reload QSettings to pick up new file
+        settings.sync();
+        m_entries.clear();
+        m_accountList->clear();
+        loadData();
+        updateCurrentCode();
+    } else {
+        QMessageBox::warning(this, "Use Existing DB", "Failed to create symlink to cloud file.");
+    }
+}
+
+
+void TwoFAManager::showConfigLocation()
+{
+    QString path = settings.fileName();
+    QFileInfo info(path);
+
+    QString message;
+
+    if (info.isSymLink()) {
+        QString target = info.symLinkTarget();
+
+        message =
+                "Configuration file is a symbolic link.\n\n"
+                "Local path:\n" + path +
+                "\n\nPoints to:\n" + target;
+    } else {
+        message =
+                "Configuration file location:\n\n" + path;
+    }
+
+    QMessageBox::information(this,
+                             "Configuration Location",
+                             message);
+}
+
+
+// metadata encrypt
+
+// Encrypt metadata fields with master password
+QString TwoFAManager::encryptMeta(const QString &text, const QString &password) {
+    if (password.isEmpty()) return text;                 // no password → plain text
+    return Simple2FA::encryptSecret(text, password);    // reuse existing encryption
+}
+
+// Decrypt metadata fields with master password
+QString TwoFAManager::decryptMeta(const QString &cipher, const QString &password) {
+    if (password.isEmpty()) return cipher;              // no password → plain text
+    return Simple2FA::decryptSecret(cipher, password);  // reuse existing decryption
 }

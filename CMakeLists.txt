@@ -106,11 +106,6 @@ set(PROJECT_SOURCES
         twofamanager.h
         simple2fa.cpp
         simple2fa.h
-        securitymanager.h
-        securitymanager.cpp
-        resources.qrc
-        helpmenudialog.cpp helpmenudialog.h
-        donationdialog.cpp donationdialog.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -142,8 +137,8 @@ else()
     endif()
 endif()
 
-#target_link_libraries(Kerveros PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt6::Network)
-target_link_libraries(Kerveros PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Network)
+target_link_libraries(Kerveros PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt6::Network)
+#target_link_libraries(Kerveros PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Network)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

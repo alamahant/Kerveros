@@ -5,6 +5,7 @@
 <summary>2FA Code Generator</summary>
 <metadata_license>CC0-1.0</metadata_license>
 <project_license>GPL-3.0-or-later</project_license>
+<url type="vcs-browser">https://github.com/alamahant/Kerveros</url>
 <description>
 <p>
 Kerveros is a robust, cross-platform two-factor authentication (2FA) code generator that combines enterprise-grade security with user-friendly features. Generate time-based one-time passwords (TOTP) for all your online accounts while keeping your secrets encrypted and protected.
@@ -59,6 +60,24 @@ Kerveros is designed for security-conscious users who need a reliable, secure, a
 <content_attribute id="social-info">mild</content_attribute>
 </content_rating>
 <releases>
+
+<release version="1.0.1" date="2026-03-02">
+<description>
+<p>Security and cloud synchronization improvements.</p>
+<ul>
+<li>Added cloud database support using symbolic links</li>
+<li>Move database to cloud-synced folders from within the application</li>
+<li>Use existing cloud database across multiple devices</li>
+<li>Automatic backup creation before database relocation</li>
+<li>Configuration location viewer showing real path or symlink target</li>
+<li>Encrypted storage extended to issuer, group, and comments metadata</li>
+<li>Improved database safety checks and user warnings</li>
+<li>Alphabetical account sorting (case-insensitive)</li>
+<li>General stability and usability improvements</li>
+</ul>
+</description>
+</release>
+
 <release version="1.0.0" date="2025-11-13">
 <description>
 <p>Initial release of Kerveros on Flathub.</p>

@@ -113,6 +113,46 @@ QString HelpMenuDialog::getWhatsNewContent()
 <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #2c3e50; background: transparent;">
 
 <h1 style="color: #2c3e50; text-align: center; margin-bottom: 20px; background: transparent;">📝 Kerveros Changelog</h1>
+
+<h3 style="color: #7f8c8d; text-align: center; margin-bottom: 30px; background: transparent;">Version 1.0.1 - Released March 2, 2026</h3>
+
+<div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 25px; border-left: 4px solid #3498db;">
+<h2 style="color: #3498db; margin-top: 0; background: transparent;">☁️ Cloud Sync Support</h2>
+<p style="background: transparent;">
+Kerveros can now safely use a cloud-synced database, allowing access to your 2FA accounts across multiple desktop computers.
+</p>
+</div>
+
+<div style="background: transparent; padding: 15px; border-radius: 8px; margin-bottom: 25px;">
+<h2 style="color: #27ae60; background: transparent;">✨ New Features</h2>
+<ul style="margin: 10px 0 10px 25px;">
+<li style="background: transparent;"><strong>Move DB to Cloud:</strong> Relocate your secrets database to a cloud folder directly from the application.</li>
+<li style="background: transparent;"><strong>Use Existing Cloud Database:</strong> Connect another computer to an already synchronized database.</li>
+<li style="background: transparent;"><strong>Configuration Location Viewer:</strong> Displays the active configuration path and symlink target.</li>
+<li style="background: transparent;"><strong>Automatic Backups:</strong> Safety backups created before database replacement or relocation.</li>
+<li style="background: transparent;"><strong>Alphabetical Account Sorting:</strong> Accounts now sorted automatically for easier navigation.</li>
+</ul>
+</div>
+
+<div style="background: transparent; padding: 15px; border-radius: 8px; margin-bottom: 25px;">
+<h2 style="color: #9b59b6; background: transparent;">🔒 Security Improvements</h2>
+<ul style="margin: 10px 0 10px 25px;">
+<li style="background: transparent;"><strong>Encrypted Metadata:</strong> Issuer, group, and comments are now encrypted alongside secrets.</li>
+<li style="background: transparent;"><strong>Cloud Safety Warnings:</strong> Clear guidance when moving databases to synced folders.</li>
+<li style="background: transparent;"><strong>Safer Database Handling:</strong> Improved checks for symlinks and existing configurations.</li>
+</ul>
+</div>
+
+<div style="background: transparent; padding: 15px; border-radius: 8px; margin-bottom: 25px;">
+<h2 style="color: #e67e22; background: transparent;">🛠️ Improvements</h2>
+<ul style="margin: 10px 0 10px 25px;">
+<li style="background: transparent;">Improved import reliability and settings reload behavior.</li>
+<li style="background: transparent;">Cleaner database migration workflow.</li>
+<li style="background: transparent;">General stability and usability refinements.</li>
+</ul>
+</div>
+
+
 <h3 style="color: #7f8c8d; text-align: center; margin-bottom: 30px; background: transparent;">Version 1.0.0 - Released November 15, 2025</h3>
 
 <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 25px; border-left: 4px solid #27ae60;">
@@ -265,6 +305,13 @@ QString HelpMenuDialog::getFeaturesContent()
 <li style="background: transparent;"><strong>Automatic Data Persistence:</strong> All accounts and settings automatically saved and restored across sessions.</li>
 <li style="background: transparent;"><strong>Flexible Security Settings:</strong> Toggle password protection and minimize-to-tray behavior with immediate effect.</li>
 <li style="background: transparent;"><strong>Smart Encryption Migration:</strong> Automatically encrypts existing plain-text accounts when password protection is enabled.</li>
+<li style="background: transparent;"><strong>Encrypted Metadata Storage:</strong> Account issuer, group, and comments are now encrypted alongside secrets when master password protection is enabled.</li>
+<li style="background: transparent;"><strong>Cloud Sync Support:</strong> Move database to a cloud-synced folder and securely use the same 2FA accounts across multiple desktops via symbolic links.</li>
+<li style="background: transparent;"><strong>Use Existing Cloud Database:</strong> Attach Kerveros to an already synced configuration file from a cloud directory with automatic reload.</li>
+<li style="background: transparent;"><strong>Configuration Location Viewer:</strong> Quickly display the active configuration file path and resolve symlink targets for transparency.</li>
+<li style="background: transparent;"><strong>Improved Import Reliability:</strong> Database import rewritten to safely replace existing settings without requiring multiple attempts.</li>
+<li style="background: transparent;"><strong>Alphabetical Account Sorting:</strong> Accounts are automatically sorted case-insensitively for cleaner navigation.</li>
+<li style="background: transparent;"><strong>Security Guidance for Cloud Usage:</strong> Built-in warnings encourage enabling master password protection before using cloud synchronization.</li>
 </ul>
 
 </div>
@@ -420,6 +467,27 @@ QString HelpMenuDialog::getInstructionsContent()
 </li>
 <li>
   <strong>Multiple Services:</strong> Add accounts for all your 2FA-enabled services (GitHub, Google, PayPal, etc.) in one place.
+</li>
+</ul>
+</div>
+
+<div style="background: transparent; padding: 15px; border-radius: 8px; margin-bottom: 25px;">
+<h2 style="color: #2c3e50; background: transparent;">Cloud Sync & Security Tips</h2>
+<ul style="margin: 10px 0 10px 25px;">
+<li>
+  <strong>Enable Encryption First:</strong> Before moving your database to a cloud-synced folder, enable <em>Security → Require password at startup</em> to protect your accounts.
+</li>
+<li>
+  <strong>One Database, Multiple Desktops:</strong> Use <em>Move DB to Cloud</em> once, then <em>Use Existing DB</em> on other computers to safely share the same accounts.
+</li>
+<li>
+  <strong>Avoid Manual Moves:</strong> Do not manually move the configuration file after setup — this may break the symbolic link used by Kerveros.
+</li>
+<li>
+  <strong>Changing Cloud Location:</strong> Create a backup, perform a factory reset, then run <em>Move DB to Cloud</em> again to select a new folder.
+</li>
+<li>
+  <strong>Check Active Database:</strong> Use the configuration location viewer to verify whether Kerveros is using a local file or a cloud target.
 </li>
 </ul>
 </div>

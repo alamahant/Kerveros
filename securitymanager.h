@@ -26,6 +26,7 @@ public:
     // Settings
     bool isPasswordProtectionEnabled() const;
     void clearSecuritySettings();
+    QAction* m_requirePasswordAction;
 
 private slots:
     void onTogglePasswordProtection(bool enabled);
@@ -37,7 +38,6 @@ private:
     QString hashPassword(const QString& password);
 
     QWidget* m_parent;
-    QAction* m_requirePasswordAction;
     QAction* m_factoryResetAction;
     QSettings m_settings;
 
