@@ -128,6 +128,7 @@ Kerveros can now safely use a cloud-synced database, allowing access to your 2FA
 <ul style="margin: 10px 0 10px 25px;">
 <li style="background: transparent;"><strong>Move DB to Cloud:</strong> Relocate your secrets database to a cloud folder directly from the application.</li>
 <li style="background: transparent;"><strong>Use Existing Cloud Database:</strong> Connect another computer to an already synchronized database.</li>
+<li style="background: transparent;"><strong>Supported Cloud Locations:</strong> Works with Nextcloud (~/Nextcloud), OneDrive (~/OneDrive), Dropbox (~/Dropbox), Google Drive (~/Google Drive), MEGA (~/MEGA), pCloud (~/pCloud Drive), and Tresorit (~/Tresorit).</li>
 <li style="background: transparent;"><strong>Configuration Location Viewer:</strong> Displays the active configuration path and symlink target.</li>
 <li style="background: transparent;"><strong>Automatic Backups:</strong> Safety backups created before database replacement or relocation.</li>
 <li style="background: transparent;"><strong>Alphabetical Account Sorting:</strong> Accounts now sorted automatically for easier navigation.</li>
@@ -308,6 +309,7 @@ QString HelpMenuDialog::getFeaturesContent()
 <li style="background: transparent;"><strong>Encrypted Metadata Storage:</strong> Account issuer, group, and comments are now encrypted alongside secrets when master password protection is enabled.</li>
 <li style="background: transparent;"><strong>Cloud Sync Support:</strong> Move database to a cloud-synced folder and securely use the same 2FA accounts across multiple desktops via symbolic links.</li>
 <li style="background: transparent;"><strong>Use Existing Cloud Database:</strong> Attach Kerveros to an already synced configuration file from a cloud directory with automatic reload.</li>
+<li style="background: transparent;"><strong>Supported Cloud Locations:</strong> Works with Nextcloud (~/Nextcloud), OneDrive (~/OneDrive), Dropbox (~/Dropbox), Google Drive (~/Google Drive), MEGA (~/MEGA), pCloud (~/pCloud Drive), and Tresorit (~/Tresorit).</li>
 <li style="background: transparent;"><strong>Configuration Location Viewer:</strong> Quickly display the active configuration file path and resolve symlink targets for transparency.</li>
 <li style="background: transparent;"><strong>Improved Import Reliability:</strong> Database import rewritten to safely replace existing settings without requiring multiple attempts.</li>
 <li style="background: transparent;"><strong>Alphabetical Account Sorting:</strong> Accounts are automatically sorted case-insensitively for cleaner navigation.</li>
@@ -489,6 +491,7 @@ QString HelpMenuDialog::getInstructionsContent()
 <li>
   <strong>Check Active Database:</strong> Use the configuration location viewer to verify whether Kerveros is using a local file or a cloud target.
 </li>
+<li style="background: transparent;"><strong>Supported Cloud Locations:</strong> Works with Nextcloud (~/Nextcloud), OneDrive (~/OneDrive), Dropbox (~/Dropbox), Google Drive (~/Google Drive), MEGA (~/MEGA), pCloud (~/pCloud Drive), and Tresorit (~/Tresorit).</li>
 </ul>
 </div>
 

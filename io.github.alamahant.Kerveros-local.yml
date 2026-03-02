@@ -10,6 +10,14 @@ finish-args:
   - --socket=wayland
   - --device=dri
   - --filesystem=xdg-documents/Kerveros:create
+  - --filesystem=home/Nextcloud
+  - --filesystem=home/OneDrive
+  - --filesystem=home/Dropbox
+  - --filesystem=home/Google\ Drive   # Note escaped space
+  - --filesystem=home/MEGA
+  - --filesystem=home/pCloud\ Drive    # Escaped space
+  - --filesystem=home/Tresorit
+  # App-specific folder (optional)
 modules:
   - name: Kerveros
     buildsystem: cmake-ninja

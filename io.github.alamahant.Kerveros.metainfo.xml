@@ -74,6 +74,7 @@ Kerveros is designed for security-conscious users who need a reliable, secure, a
 <li>Improved database safety checks and user warnings</li>
 <li>Alphabetical account sorting (case-insensitive)</li>
 <li>General stability and usability improvements</li>
+<li>Supported Cloud Locations:</strong> Works with Nextcloud (~/Nextcloud), OneDrive (~/OneDrive), Dropbox (~/Dropbox), Google Drive (~/Google Drive), MEGA (~/MEGA), pCloud (~/pCloud Drive), and Tresorit (~/Tresorit).</li>
 </ul>
 </description>
 </release>
