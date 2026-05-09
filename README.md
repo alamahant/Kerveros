@@ -2,8 +2,13 @@
 
 ![Kerveros Screenshot](screenshots/Main_View.png)
 
-Available in Flathub:
-https://flathub.org/en/apps/search?q=alamahant
+**Download**
+
+| Platform | Where to Get It |
+| :--- | :--- |
+| **Linux** | [Flathub](https://flathub.org/en/apps/search?q=alamahant) |
+| **Windows and Mac** | [Buy on Gumroad](https://jnanadhakini.gumroad.com/) - Pre-compiled binary, no compilation needed |
+
 
 **Secure 2FA Code Generator with Master Password Protection**
 
